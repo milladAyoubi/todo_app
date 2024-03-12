@@ -25,9 +25,16 @@ const Task = ({ task, completeTask, deleteTask }) => {
         </div>
       </div>
       {/* Button to mark the task as complete, triggering 'completeTask' on click. */}
-      <button onClick={() => completeTask(task.id)} className="complete-btn">
-        Mark Complete
-      </button>
+
+      {!task.completed ? (
+        <button onClick={() => completeTask(task.id)} className="complete-btn">
+          Mark Complete
+        </button>
+      ) : (
+        <button onClick={() => completeTask(task.id)} className="complete-btn">
+          Undo
+        </button>
+      )}
     </div>
   );
 };
