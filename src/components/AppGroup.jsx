@@ -12,6 +12,7 @@ uuidv4();
 const AppGroup = () => {
   // State hook to manage the todoList array.
   const [todoList, setTodoList] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
 
   // Function to add a new task to the todoList.
   const addTask = (task) => {
@@ -36,12 +37,15 @@ const AppGroup = () => {
           : task
       )
     );
+
+    setCompletedTasks(todoList);
   };
 
   // Function to delete a task from the todoList.
   const deleteTask = (id) => {
     // Using the filter function to create a new array without the task to be deleted.
     setTodoList(todoList.filter((task) => task.id !== id));
+    setCompletedTasks(todoList);
   };
 
   // Rendering JSX elements representing the component's output.
@@ -58,6 +62,7 @@ const AppGroup = () => {
           deleteTask={deleteTask}
         />
       ))}
+      <p className="total-tasks">Total Tasks: {todoList.length}</p>
     </div>
   );
 };
