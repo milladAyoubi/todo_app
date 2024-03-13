@@ -5,7 +5,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 // Declaring a functional component named 'Task'.
-const Task = ({ task, completeTask, deleteTask }) => {
+const Task = ({ task, completeTask, deleteTask, editTask }) => {
   // Rendering JSX elements representing the component's output.
   return (
     <div className="task-group">
@@ -19,7 +19,7 @@ const Task = ({ task, completeTask, deleteTask }) => {
         {/* Container for icons, allowing users to edit or delete the task. */}
         <div className="icon-group">
           {/* Edit icon using 'FaRegEdit' from 'react-icons/fa' */}
-          <FaRegEdit className="icon" />
+          <FaRegEdit className="icon" onClick={() => editTask(task.id)} />
           {/* Delete icon using 'FaRegTrashAlt' from 'react-icons/fa', triggering 'deleteTask' on click. */}
           <FaRegTrashAlt className="icon" onClick={() => deleteTask(task.id)} />
         </div>

@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 // Importing the 'Form' and 'Task' components.
 import Form from "./Form";
 import Task from "./Task";
+import EditTaskForm from "./EditTaskForm";
+
 // Generating a unique identifier using 'uuid'.
 uuidv4();
 
@@ -12,7 +14,6 @@ uuidv4();
 const AppGroup = () => {
   // State hook to manage the todoList array.
   const [todoList, setTodoList] = useState([]);
-  const [completedTasks, setCompletedTasks] = useState([]);
 
   // Function to add a new task to the todoList.
   const addTask = (task) => {
@@ -37,15 +38,28 @@ const AppGroup = () => {
           : task
       )
     );
-
-    setCompletedTasks(todoList);
   };
 
   // Function to delete a task from the todoList.
   const deleteTask = (id) => {
     // Using the filter function to create a new array without the task to be deleted.
     setTodoList(todoList.filter((task) => task.id !== id));
-    setCompletedTasks(todoList);
+  };
+
+  const editTask = (id) => {
+    setTodoList(
+      todoList.map((todo) =>
+        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
+      )
+    );
+  };
+
+  const editInput = (task, id) => {
+    setTodoList(
+      todoList.map((todo) =>
+        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
+      )
+    );
   };
 
   // Rendering JSX elements representing the component's output.
@@ -54,14 +68,19 @@ const AppGroup = () => {
       <h1>React Application!</h1>
       <Form addTask={addTask} /> {/* Rendering the 'Form' component. */}
       {/* Mapping through the todoList and rendering 'Task' components for each task. */}
-      {todoList.map((task, index) => (
-        <Task
-          task={task}
-          key={index}
-          completeTask={completeTask}
-          deleteTask={deleteTask}
-        />
-      ))}
+      {todoList.map((task, index) =>
+        task.isEditing ? (
+          <EditTaskForm editTask={editInput} task={task} />
+        ) : (
+          <Task
+            task={task}
+            key={index}
+            completeTask={completeTask}
+            deleteTask={deleteTask}
+            editTask={editTask}
+          />
+        )
+      )}
       <p className="total-tasks">Total Tasks: {todoList.length}</p>
     </div>
   );
